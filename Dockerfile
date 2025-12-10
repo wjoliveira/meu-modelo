@@ -7,5 +7,9 @@ WORKDIR /app
 # 3. Copiar Arquivos: Pegamos tudo da pasta atual (.) e jogamos na pasta do container (.)
 COPY . .
 
-# 4. Comando de Execução: O que acontece quando o container liga?
-CMD ["python", "main.py"]
+# --- A CORREÇÃO ESTÁ AQUI ---
+# Manda o Python ler o arquivo e instalar as bibliotecas
+RUN pip install --no-cache-dir -r requirements.txt
+
+# O comando padrão (será substituído pelo docker-compose, mas é bom ter)
+CMD ["python3", "main.py"]

@@ -1,0 +1,31 @@
+name: Teste de MLOps
+
+# Quando rodar? Sempre que houver um push na main
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  meu-teste-automatico:
+    runs-on: ubuntu-latest # O GitHub empresta um Ubuntu pra gente
+
+    steps:
+    # 1. Baixar o código do repositório
+    - name: Checkout do código
+      uses: actions/checkout@v3
+
+    # 2. Instalar Python
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # 3. Instalar bibliotecas (sem o venv, pois a máquina é descartável)
+    - name: Instalar dependências
+      run: |
+        pip install pandas scikit-learn joblib
+
+    # 4. Rodar um teste simples (Treinar o modelo)
+    # Nota: Vamos rodar o trainer.py direto para ver se não quebra
+    - name: Testar Treinamento do Modelo
+      run: python teste_rapido.py
