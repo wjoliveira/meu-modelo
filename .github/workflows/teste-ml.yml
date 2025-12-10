@@ -28,4 +28,4 @@ jobs:
     # 4. Rodar um teste simples (Treinar o modelo)
     # Nota: Vamos rodar o trainer.py direto para ver se não quebra
     - name: Testar Treinamento do Modelo
-      run: python teste_rapido.py
+      run: python trainer.py
