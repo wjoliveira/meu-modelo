@@ -1,31 +1,43 @@
-name: Teste de MLOps
+name: CI/CD MLOps Pipeline
 
-# Quando rodar? Sempre que houver um push na main
 on:
   push:
     branches: [ main ]
 
 jobs:
-  meu-teste-automatico:
-    runs-on: ubuntu-latest # O GitHub empresta um Ubuntu pra gente
-
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
     steps:
-    # 1. Baixar o código do repositório
-    - name: Checkout do código
+    - name: Checkout do Código
       uses: actions/checkout@v3
 
-    # 2. Instalar Python
+    # Etapa 1: Instalação e Teste (Garante que as dependências funcionam)
     - name: Configurar Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
-    # 3. Instalar bibliotecas (sem o venv, pois a máquina é descartável)
-    - name: Instalar dependências
-      run: |
-        pip install pandas scikit-learn joblib
+    - name: Instalar dependências de Teste
+      run: pip install -r requirements.txt
+      
+    - name: Executar Teste Rápido de Treinamento
+      run: python teste_rapido.py
 
-    # 4. Rodar um teste simples (Treinar o modelo)
-    # Nota: Vamos rodar o trainer.py direto para ver se não quebra
-    - name: Testar Treinamento do Modelo
-      run: python trainer.py
+    # Etapa 2: Construir e Enviar Imagem Docker (Continuous Delivery)
+    
+    - name: Login no Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        
+    - name: Construir e Enviar Imagem
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/meu-modelo:${{ github.sha }}
+        
+    - name: Imagem Criada com Sucesso
+      run: echo "Imagem Docker enviada para ${{ secrets.DOCKER_USERNAME }}/meu-modelo:${{ github.sha }}"
