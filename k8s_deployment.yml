@@ -15,7 +15,7 @@ spec:
       containers:
       - name: modelo-container
         # SUBSTITUA A LINHA ABAIXO COM SEU USERNAME DO DOCKER HUB
-        image: welloliveira/meu-modelo:latest
+        image: welloliveira/meu-modelo:v2
         ports:
         - containerPort: 8000
 ---

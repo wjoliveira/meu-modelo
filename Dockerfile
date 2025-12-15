@@ -13,3 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # O comando padrão (será substituído pelo docker-compose, mas é bom ter)
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Comando para garantir que o contêiner tenha permissão de gravação
+RUN chmod -R 777 /app
