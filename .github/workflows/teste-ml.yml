@@ -37,7 +37,9 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/meu-modelo:${{ github.sha }}
+        #tags: ${{ secrets.DOCKER_USERNAME }}/meu-modelo:${{ github.sha }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/meu-modelo:latest
         
     - name: Imagem Criada com Sucesso
-      run: echo "Imagem Docker enviada para ${{ secrets.DOCKER_USERNAME }}/meu-modelo:${{ github.sha }}"
+      #run: echo "Imagem Docker enviada para ${{ secrets.DOCKER_USERNAME }}/meu-modelo:${{ github.sha }}"
+      run: echo "Imagem Docker enviada para ${{ secrets.DOCKER_USERNAME }}/meu-modelo:latest"
